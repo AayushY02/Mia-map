@@ -64,7 +64,7 @@ export const toggleTransportationLayer = (
                 // 'source-layer': sourceLayer,
                 layout: { visibility: 'visible' },
                 paint: {
-                    'line-color': "#f21",
+                    'line-color': "#0C0A3E",
                     'line-width': 2
                 }
             }, labelLayerId);
