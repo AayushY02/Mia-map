@@ -314,8 +314,6 @@ export default function MapControls({
 
     toggleKashiwaPublicFacilityVisible,
     selectedCategories,
-    facilityLabelsVisible,
-    toggleFacilityLabelsVisible,
 
     busCoverageVisible,
     toggleBusCoverage,
