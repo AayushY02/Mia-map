@@ -15,8 +15,6 @@ import {
 } from "@/components/ui/accordion";
 import {
     Layers,
-    // Mountain,
-    // Ruler,
     Landmark,
     MapPin,
     Building,
@@ -27,18 +25,11 @@ import {
     Menu,
     BusFront,
     MapPinCheckIcon,
-    // User2,
-    // Circle,
-    // ShoppingBasket,
-    // Store,
-    // ShoppingBag,
     NotepadTextDashed,
     Mountain,
     MapIcon,
     Circle,
     User2,
-    // TableIcon,
-    // Route,
 
 } from 'lucide-react';
 import { Label } from './ui/label';
@@ -400,7 +391,6 @@ export default function MapControls({
                         transition={{ duration: 0.1 }}
                         className="overflow-y-auto px-4 py-4 flex flex-col space-y-3 bg-white/50 backdrop-blur-2xl rounded-2xl shadow-2xl w-72 sm:w-80 max-h-[75vh]"
                     >
-                        {/* Map style selector */}
                         <Select value={currentStyle} onValueChange={onStyleChange}>
                             <SelectTrigger className="w-full px-4 py-2 text-sm bg-white rounded-xl text-black shadow border border-gray-200">
                                 <SelectValue placeholder="地図スタイルを選択" />
@@ -412,7 +402,6 @@ export default function MapControls({
                             </SelectContent>
                         </Select>
 
-                        {/* Layer Toggles */}
                         <Button className="flex items-center gap-2 bg-white rounded-2xl text-black hover:bg-[#f2f2f2] cursor-pointer" onClick={captureMapScreenshot}>
                             <MapPinCheckIcon />
                             画像をエクスポート
