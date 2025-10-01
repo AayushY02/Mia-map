@@ -1,0 +1,137 @@
+# layers.yaml
+
+# ─── Population meshes (pre-tiled at 1km, 500m, 250m) ────────────
+- key: population_1km
+  path: data/12_chiba_1km_pop.geojson
+  mesh_id_field: MESH_ID # e.g. “MESH_ID”
+  count_in_property:
+    - PTN_2020 # e.g. “PTN_2020”
+    - PTN_2015 # e.g. “PTN_2020”
+    - SHICODE # e.g. “PTN_2020”
+  mesh_level: 1
+
+- key: population_500m
+  path: data/12_chiba_500m_pop.geojson
+  mesh_id_field: MESH_ID
+  count_in_property:
+    - PTN_2020 # e.g. “PTN_2020”
+    - PTN_2015 # e.g. “PTN_2020”
+    - SHICODE # e.g.
+  mesh_level: 2
+
+- key: population_250m
+  path: data/12_chiba_250m_pop.geojson
+  mesh_id_field: MESH_ID
+  count_in_property:
+    - PTN_2020
+    - SHICODE
+  mesh_level: 3
+
+# ─── Point/Line/Polygon layers (auto-replicated to all levels 1/2/3) ─────
+- key: agriculture_land
+  path: data/agriculture-land.geojson
+  geom_type: polygon
+  id_field: ID
+  name_fields:
+    - KOUCHI
+  sample_fields:
+    - CITY # 市区町村名 (“柏市”)
+    - JISCODE # JIS area code (“12217”)
+    - CENTROID_X # centroid longitude
+    - CENTROID_Y # centroid latitude
+
+- key: attraction
+  path: data/attraction.geojson
+  geom_type: point
+  id_field: P33_001
+  name_fields:
+    - P33_005
+  sample_fields:
+    - P33_006 # postal code
+    - P33_007 # address
+    - P33_008 # phone number
+    - P33_009 # budget/funding
+
+- key: bus_stops
+  path: data/bus_stops.geojson
+  geom_type: point
+  name_fields:
+    - P11_001
+    - P11_002
+  sample_fields:
+    - P11_003_01
+    - P11_004_01
+
+- key: bus_pick_drop
+  path: data/bus-pick-drop.geojson
+  geom_type: polygon
+  name_fields:
+    - name
+  sample_fields:
+    - 表示番号 # display number (e.g. "B455" or "A045")
+    - 緯度 # latitude
+    - 経度
+
+- key: transportation
+  path: data/transportation.geojson
+  geom_type: line
+  name_fields:
+    - N07_001
+
+- key: public_facility
+  path: data/KS_PublicFacility_enriched.geojson
+  geom_type: point
+  id_field: P02_001
+  name_fields:
+    - P02_004 # e.g. “千葉県立美術館”, “千葉市美術館”
+  sample_fields:
+    - P02_005 # address
+    - CategoryCode # category code (e.g. “03001”)
+
+- key: medical_institute_land
+  path: data/medical_institute_land.geojson
+  geom_type: point
+  name_fields:
+    - P04_002
+  sample_fields:
+    - P04_003 # address (e.g. “市原市八幡115-1”)
+    - P04_004 # departments (e.g. “胃　内　外　循環器内科”)
+    - P04_008 # numeric attr (e.g. 37)
+    - P04_009 # numeric attr (e.g. 1)
+    - P04_010 # numeric attr (e.g. 9)
+
+- key: roadside_station
+  path: data/roadside_station.geojson
+  geom_type: point
+  id_field: P35_005
+  name_fields:
+    - P35_006 # e.g. “びふか”, “江差”
+  sample_fields:
+    - P35_003 # prefecture name (e.g. “北海道”)
+    - P35_004 # municipality (e.g. “中川郡美深町”)
+    - P35_007 # URL to station info
+    - P35_008 # another info URL
+    - P35_009 # tourism link
+
+- key: school_national_land
+  path: data/school_national_land.geojson
+  geom_type: point
+  id_field: P29_002 # e.g. “A112210000712”
+  name_fields:
+    - P29_004 # e.g. “大網白里市立白里幼稚園”
+  sample_fields:
+    - P29_001 # municipality code (e.g. “12239”)
+    - P29_003 # JIS category code (e.g. “16011”)
+    - P29_005 # address (e.g. “千葉県大網白里市南今泉3344”)
+    - P29_006 # classification level (e.g. “3”)
+
+- key: tourist_spots
+  path: data/tourist_spots.geojson
+  geom_type: point
+  id_field: P12_001
+  name_fields:
+    - P12_002
+  sample_fields:
+    - P12_003 # category code (e.g. “12”)
+    - P12_004 # municipality code (e.g. “12101”)
+    - P12_006 # address (e.g. “千葉市中央区中央4-5-1”)

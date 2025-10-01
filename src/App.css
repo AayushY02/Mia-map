@@ -1,0 +1,134 @@
+#root {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#map-container {
+  height: 100%;
+  width: 100%;
+  /* temporarily set the background color so we can tell where the map container is positioned */
+  background-color: lightgrey;
+}
+
+.sidebar {
+  background-color: rgb(35 55 75 / 90%);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 12px;
+  border-radius: 4px;
+}
+
+.reset-button {
+  position: absolute;
+  top: 50px;
+  z-index: 1;
+  left: 12px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+
+}
+.ai-popup .maplibregl-popup-content {
+  background-color: green;
+  padding: 0;
+  border-radius: 4rem;
+  box-shadow: 2rem;
+}
+
+.ai-popup-2 .maplibregl-popup-content{
+  background-color: #fff;       /* or your theme color */
+  padding: .75rem 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  color:#000;
+}
+
+
+/* Base popup container */
+.ai-popup-2 .maplibregl-popup-content {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #111827;               /* gray-900 */
+  border: 1px solid #e5e7eb;    /* gray-200 */
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Hide the little arrow for a cleaner card look (optional) */
+.ai-popup-2 .maplibregl-popup-tip { display: none; }
+
+/* Card content */
+.ai-popup-2 .ai-pop-card { max-width: 480px; }
+.ai-popup-2 .ai-pop-card.lg { max-width: 560px; }
+
+/* Title + subtitle */
+.ai-popup-2 .ai-pop-title {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+.ai-popup-2 .ai-pop-sub {
+  color: #6b7280;              /* gray-500 */
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+/* Key–value preview (tooltip) */
+.ai-popup-2 .ai-pop-rows { display: grid; gap: 4px; }
+.ai-popup-2 .ai-pop-row { display: flex; gap: 6px; font-size: 12px; }
+.ai-popup-2 .ai-pop-row .k { color: #6b7280; white-space: nowrap; }
+
+/* Footer hint */
+.ai-popup-2 .ai-pop-footer {
+  margin-top: 8px;
+  color: #9ca3af;              /* gray-400 */
+  font-size: 11px;
+}
+
+/* Full table (click popup) */
+.ai-popup-2 .ai-pop-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.ai-popup-2 .ai-pop-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #f3f4f6; /* gray-100 */
+  vertical-align: top;
+}
+.ai-popup-2 .ai-pop-table td.k {
+  color: #6b7280;              /* gray-500 */
+  white-space: nowrap;
+}
+
+/* Monospace block for nested objects */
+.ai-popup-2 .ai-pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #111827;
+}
+
+/* Chiba roads hover tooltip: rounded, no padding */
+.roads-popup .maplibregl-popup-content {
+  padding: 0;               /* no visible padding */
+  border-radius: 12px;      /* rounded corners */
+  overflow: hidden;         /* clip inner content to radius */
+  background: #ffffff;      /* clean white bubble */
+}
+/* Optional: keep the small pointer if desired; remove to hide */
+/* .roads-popup .maplibregl-popup-tip { display: none; } */
