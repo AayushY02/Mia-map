@@ -35,6 +35,8 @@ import {
     NotepadTextDashed,
     Mountain,
     MapIcon,
+    Circle,
+    User2,
     // TableIcon,
     // Route,
 
@@ -43,7 +45,7 @@ import { Label } from './ui/label';
 import { Switch } from './ui/switch';
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import {  useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { globalVisibleLayersState } from '@/state/activeLayersAtom';
 import { LegendRow } from './Legend/LegendGroupTableDialog';
 
@@ -278,6 +280,8 @@ interface MapControlsProps {
         widthRange: { min: number; max: number };
     }) => void;
 
+
+
 }
 
 export default function MapControls({
@@ -308,12 +312,15 @@ export default function MapControls({
     terrainEnabled,
     toggleTerrain,
 
-  
+    toggleKashiwaPublicFacilityVisible,
+    selectedCategories,
+    facilityLabelsVisible,
+    toggleFacilityLabelsVisible,
 
-    busCoverageVisible,            
+    busCoverageVisible,
     toggleBusCoverage,
 
-    busStopPointsVisible,     
+    busStopPointsVisible,
     toggleBusStopPoints,
 
     cityMaskVisible,
@@ -345,7 +352,7 @@ export default function MapControls({
         setFreqThresholdsText(busRoutesFrequencyStyle.thresholds.join(","));
     }, [busRoutesFrequencyStyle.thresholds]);
 
- 
+
 
     const metricLabels: Record<string, string> = {
         PTN_2025: '総人口（2025年）',
@@ -374,7 +381,7 @@ export default function MapControls({
 
         toggleFunction();
     }
-   
+
     return (
         <div data-map-controls className="absolute right-3 top-3 z-10 max-h-screen w-fit flex flex-col items-end">
             {/* Toggle Button */}
@@ -418,7 +425,7 @@ export default function MapControls({
                         </Button>
                         <Button className="flex items-center gap-2 bg-white rounded-2xl text-black hover:bg-[#f2f2f2] cursor-pointer" onClick={fitToBounds}>
                             <MapPinCheckIcon />
-                           いなべ市にフォーカス
+                            いなべ市にフォーカス
                         </Button>
 
                         <Button
@@ -446,7 +453,7 @@ export default function MapControls({
                         </Button>
 
                         <Button onClick={() => handleLayerToggle('行政界', adminVisible, toggleAdmin)} className="flex items-center gap-2 bg-white rounded-2xl text-black hover:bg-[#f2f2f2] cursor-pointer"><Layers />{adminVisible ? '行政界を非表示' : '行政界を表示'}</Button>
-                      
+
                         <Accordion type="single" collapsible className="w-full">
                             <AccordionItem value="transportation">
                                 <AccordionTrigger className="text-black bg-gray-50 text-sm hover:bg-gray-100 rounded-xl px-4 py-2 hover:no-underline cursor-pointer flex items-center ">
@@ -455,7 +462,7 @@ export default function MapControls({
                                 <AccordionContent className="flex flex-col space-y-2 bg-white rounded-xl mt-2 px-4 py-2">
                                     {[
                                         { label: '交通レイヤー', checked: transportVisible, onChange: () => handleLayerToggle('交通レイヤー', transportVisible, toggleTransport), icon: <Bus size={16} /> },
-                                      
+
                                         {
                                             label: 'バス停（点）',
                                             checked: busStopPointsVisible,
@@ -485,13 +492,13 @@ export default function MapControls({
                             <Hospital size={16} />
                             {medicalLayerVisible ? '医療機関を隠す' : '医療機関を表示'}
                         </Button>
-                        
+
                         <Button onClick={() => handleLayerToggle('道の駅', roadsideStationLayerVisible, toggleRoadsideStationLayerVisible)} className="flex items-center gap-2 bg-white rounded-2xl text-black hover:bg-[#f2f2f2] cursor-pointer">
                             <MapPin size={16} />
                             {roadsideStationLayerVisible ? '道の駅を非表示' : '道の駅を表示'}
                         </Button>
                         <Button onClick={() => handleLayerToggle('集客施設レイヤー', attractionLayerVisible, toggleAttractionLayer)} className="flex items-center gap-2 bg-white rounded-2xl text-black hover:bg-[#f2f2f2] cursor-pointer">
-                           
+
                             {attractionLayerVisible ? '集客施設レイヤーを非表示' : '集客施設レイヤーを表示'}
                         </Button>
 
@@ -510,7 +517,7 @@ export default function MapControls({
                                         </div>
                                     ))}
 
-                                    
+
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
@@ -551,12 +558,75 @@ export default function MapControls({
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
+                        <Accordion type="single" collapsible className="w-full">
+                            <AccordionItem value="transportation">
+                                <AccordionTrigger className="text-black bg-gray-50 text-sm hover:bg-gray-100 rounded-xl px-4 py-2 hover:no-underline cursor-pointer flex items-center justify-between">
+                                    <div className='flex space-x-4 w-full'>
+                                        <User2 size={16} />
+                                        <div>いなべ市の公共施設</div>
+                                    </div>
+                                    {/* <button
+                                        type="button"
+                                        title="凡例グループ表を開く"
+                                        className="p-1 rounded-lg hover:bg-white/60"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation(); // do not toggle accordion
+                                            setFacilityDialogOpen(v => !v);
+                                        }}
+                                    >
+                                        <TableIcon className="h-4 w-4 text-muted-foreground" />
+                                    </button> */}
+
+
+                                </AccordionTrigger>
+                                <AccordionContent className="flex flex-col space-y-2 bg-white rounded-xl mt-2 px-4 py-2">
+                                    {[
+                          
+
+                                        { label: '全て', category: '', color: '#808080' },
+                                        { label: '建物', category: '3', color: '#FF5733' },
+                                        { label: 'その他', category: '9', color: '#33FF57' },
+                                        { label: '国の機関', category: '11', color: '#DDD92A' },
+                                        { label: '地方公共団体', category: '12', color: '#313715' },
+                                        { label: '厚生機関', category: '13', color: '#91E5F6' },
+                                        { label: '警察機関', category: '14', color: '#FF1053' },
+                                        { label: '消防署', category: '15', color: '#725AC1' },
+                                        { label: '学校', category: '16', color: '#A1EF8B' },
+                                        { label: '病院', category: '17', color: '#5D737E' },
+                                        { label: '郵便局', category: '18', color: '#FF9000' },
+                                        { label: '福祉施設', category: '19', color: '#13070C' },
+
+                                    ].map(({ label, category, color }) => (
+                                        <div key={label} className="flex items-center justify-between">
+                                            <Label className="text-sm text-black flex items-center gap-2">
+                                                <Circle className='text-white' fill={color} size={20} />
+                                                {label}
+                                            </Label>
+                                            <Switch
+                                                checked={selectedCategories.includes(category)}
+                                                onCheckedChange={() => handleLayerToggle(category === '' ? '柏市の公共施設-全て' : category, selectedCategories.includes(category), () => toggleKashiwaPublicFacilityVisible(category))}
+                                            />
+                                        </div>
+                                    ))}
+                                    <div className="flex items-center justify-between">
+                                        <Label className="text-sm text-black flex items-center gap-2">
+                                            施設番号ラベル（NO）
+                                        </Label>
+                                        <Switch
+                                            checked={facilityLabelsVisible}
+                                            onCheckedChange={toggleFacilityLabelsVisible}
+                                        />
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
 
                         <Select value={selectedMetric} onValueChange={(value) => {
                             const label = metricLabels[value];
 
                             setGlobalVisibleLayers([label]);
-                            onMetricChange(value);          
+                            onMetricChange(value);
                         }}>
                             <SelectTrigger className="w-full px-4 py-2 text-sm bg-white rounded-xl text-black shadow border border-gray-200">
                                 <SelectValue placeholder="表示する人口指標" />
