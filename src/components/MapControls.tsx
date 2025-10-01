@@ -561,7 +561,7 @@ export default function MapControls({
                                 <AccordionTrigger className="text-black bg-gray-50 text-sm hover:bg-gray-100 rounded-xl px-4 py-2 hover:no-underline cursor-pointer flex items-center justify-between">
                                     <div className='flex space-x-4 w-full'>
                                         <User2 size={16} />
-                                        <div>いなべ市の公共施設</div>
+                                        <div>三重県の公共施設</div>
                                     </div>
                                     {/* <button
                                         type="button"
