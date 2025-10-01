@@ -609,7 +609,7 @@ export default function MapControls({
                                             />
                                         </div>
                                     ))}
-                                    <div className="flex items-center justify-between">
+                                    {/* <div className="flex items-center justify-between">
                                         <Label className="text-sm text-black flex items-center gap-2">
                                             施設番号ラベル（NO）
                                         </Label>
@@ -617,7 +617,7 @@ export default function MapControls({
                                             checked={facilityLabelsVisible}
                                             onCheckedChange={toggleFacilityLabelsVisible}
                                         />
-                                    </div>
+                                    </div> */}
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
