@@ -26,7 +26,7 @@ import { toggleAttractionLayer } from './layers/attractionLayer';
 import { toggleBusPickDropLayer } from './layers/busPickDropLayer';
 import { setAllPassengerLabelsVisible, toggleBusPassengerLayer, toggleMasuoCourseDropLayer, toggleMasuoCourseRideLayer, toggleSakaeCourseDropLayer, toggleSakaeCourseRideLayer, toggleShonanCourseDropLayer, toggleShonanCourseRideLayer, toggleWaniCityHallRouteLayer, toggleWaniOutboundDropLayer, toggleWaniOutboundRideLayer, toggleWaniReturnDropLayer, toggleWaniReturnRideLayer } from './layers/busPassengerLayer';
 import { toggleNewBusPassengerLayer, toggleNewKashiwakuruDropLayer, toggleNewKashiwakuruRideLayer } from './layers/newbusPassengerLayer';
-import { categoriesNew as categories, toggleKashiwaPublicFacilityLabels, toggleKashiwaPublicFacilityLayer} from './layers/kashiwaPublicFacilities';
+import { categoriesNew as categories, toggleKashiwaPublicFacilityLabels, toggleKashiwaPublicFacilityLayer } from './layers/kashiwaPublicFacilities';
 import { shopCategories, toggleKashiwaShopsLabels } from './layers/kashiwaShops';
 import PptxGenJS from "pptxgenjs";
 import { globalVisibleLayersState } from './state/activeLayersAtom';
@@ -64,6 +64,7 @@ import BusFrequencyLegend from './components/Legend/BusFrequencyLegend';
 import { userLayersPanelOpenAtom } from './state/uiAtoms';
 import UserLayersPanel from './components/UserLayersPanel';
 import { ensureAiMeshLayers, toggleFeatureState } from './layers/aiMesh';
+import PopulationMeshLegend from './components/Legend/PopulationMeshLegend';
 
 
 type FC = GeoJSON.FeatureCollection<GeoJSON.Geometry, Record<string, any>>;
@@ -206,8 +207,8 @@ export default function MapView() {
     const [railStationsVisible, setRailStationsVisible] = useState(false);
     const [stationCoverageVisible, setStationCoverageVisible] = useState(false);
 
-    const [facilityFC, ] = useState<FC | null>(null);
-    const [shopFC, ] = useState<FC | null>(null);
+    const [facilityFC,] = useState<FC | null>(null);
+    const [shopFC,] = useState<FC | null>(null);
     const [kashiwaFacilityLabelsVisible, setKashiwaFacilityLabelsVisible] = useState(false);
     const [kashiwaShopsLabelsVisible, setKashiwaShopsLabelsVisible] = useState(false);
 
@@ -635,7 +636,7 @@ export default function MapView() {
         }
     }
 
-  
+
     // Detect road layers (strokes + optional labels) from the *current* style
     function getRoadLayerIds(map: maplibregl.Map) {
         const layers = map.getStyle().layers ?? [];
@@ -845,9 +846,9 @@ export default function MapView() {
         }
     }, [cityMaskOpacity, cityMaskVisible]);
 
-   
 
- 
+
+
 
     useEffect(() => {
         if (!mapContainerRef.current || mapRef.current) return;
@@ -867,7 +868,7 @@ export default function MapView() {
 
         mapRef.current = map;
 
-    
+
 
         map.on('load', () => {
 
@@ -2067,6 +2068,7 @@ export default function MapView() {
     const hasAnyBusRoutesLegend = busRoutesCommonVisible || busRoutesOtherVisible;
     const hasAnyRailLegend =
         railLinesVisible || railStationsVisible || stationPassengersVisible;
+    const hasAnyMeshLegend = meshVisible;
 
     const hasAnyLegend =
         hasAnyBusLegend ||
@@ -2083,6 +2085,7 @@ export default function MapView() {
         cityMaskVisible ||
         elevationGridVisible ||
         chibaRoadsVisible ||
+        hasAnyMeshLegend ||
         busRoutesFrequencyVisible;
 
 
@@ -2393,7 +2396,7 @@ export default function MapView() {
                         )}
                     </>
                 }
-                visible={hasAnyBusLegend || hasAnyFacilities || hasAnyKashiwakuru || hasAnyShops || hasAnyOdLegend || hasAnyChomeLegend || odGridVisible || hasAnyBusCoverage || cityMaskVisible || hasAnyBusRoutesLegend || facilityLegendOpen || shopLegendOpen || hasAnyRailLegend || chibaRoadsVisible || elevationGridVisible || busRoutesFrequencyVisible} width="w-80">
+                visible={hasAnyBusLegend || hasAnyFacilities || hasAnyKashiwakuru || hasAnyShops || hasAnyOdLegend || hasAnyChomeLegend || odGridVisible || hasAnyBusCoverage || cityMaskVisible || hasAnyBusRoutesLegend || facilityLegendOpen || shopLegendOpen || hasAnyRailLegend || chibaRoadsVisible || hasAnyMeshLegend || elevationGridVisible || busRoutesFrequencyVisible} width="w-80">
                 <AnimatePresence mode="popLayout">
 
                     {hasAnyBusLegend && (
@@ -2676,6 +2679,20 @@ export default function MapView() {
                                 onExport={handleExport}
                                 onZoomToCoverage={zoomToCoverage}
                             />
+                        </motion.div>
+                    )}
+
+                    {hasAnyMeshLegend && (
+                        <motion.div
+                            key="legend-mesh-population"
+                            layout
+                            initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="w-full"
+                        >
+                            <PopulationMeshLegend className="w-full" selectedMetric={selectedMetric} />
                         </motion.div>
                     )}
 
